@@ -137,7 +137,7 @@ export default class Register extends React.Component {
     
                 <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                 <p className="forgot-password text-right">
-                    Already registered <a href="/login">Sign In ?</a>
+                    <h6>Already registered <a href="/login">Sign In ?</a></h6>
                 </p>
             </Form>
         );
