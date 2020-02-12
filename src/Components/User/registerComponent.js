@@ -78,9 +78,9 @@ export default class Register extends React.Component {
             data
         )
             .then((response) => {
-                console.log(response);  
-                    localStorage.setItem("token", response.data.token);
-                    location.href = "/login"
+                console.log(response);
+                localStorage.setItem("token", response.data.token);
+                location.href = "/login"
             })
             .catch((err) => {
                 console.log(err);
@@ -96,50 +96,54 @@ export default class Register extends React.Component {
             )
         }
         return (
+            <div className="auth-wrapper">
+                <div className="auth-inner">
+                    <Form onSubmit={this.registerHandler}>
+                        <h3>Registration</h3>
 
-            <Form onSubmit = {this.registerHandler}>
-                <h3>Registration</h3>
+                        <div className="form-group">
+                            <label>Username</label>
+                            <input type="text" className="form-control" placeholder="Username" value={this.state.Username} onChange={this.usernameHandler} />
+                        </div>
 
-                <div className="form-group">
-                    <label>Username</label>
-                    <input type="text" className="form-control" placeholder="Username" value = {this.state.Username} onChange = {this.usernameHandler}/>
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input type="password" className="form-control" placeholder="Password" value={this.state.Password} onChange={this.passwordHandler} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" className="form-control" placeholder="Confirm Password" value={this.state.CPassword} onChange={this.cpasswordHandler} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input type="email" className="form-control" placeholder="Enter Email" value={this.state.Email} onChange={this.emailHandler} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Phone</label>
+                            <input type="text" className="form-control" placeholder="Enter Phone" value={this.state.Phone} onChange={this.phoneHandler} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Address</label>
+                            <input type="text" className="form-control" placeholder="Enter Address" value={this.state.Address} onChange={this.addressHandler} />
+                        </div>
+                        <div className="form-group">
+                            <label>Gender</label> &nbsp;
+                        <input type="radio" name="gender" value={"Male"} checked={this.state.Gender === "Male"} onChange={this.genderHandler} /> Male &nbsp;
+                        <input type="radio" name="gender" value={"Female"} checked={this.state.Gender === "Female"} onChange={this.genderHandler} /> Female
                 </div>
 
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Password" value = {this.state.Password} onChange = {this.passwordHandler}/>
-                </div>
+                        <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                        <p className="forgot-password text-right">
+                            <h6>Already registered <a href="/login">Sign In ?</a></h6>
+                        </p>
+                    </Form>
 
-                <div className="form-group">
-                    <label>Confirm Password</label>
-                    <input type="password" className="form-control" placeholder="Confirm Password" value = {this.state.CPassword} onChange = {this.cpasswordHandler}/>
                 </div>
-
-                <div className="form-group">
-                    <label>Email</label>
-                    <input type="email" className="form-control" placeholder="Enter Email" value = {this.state.Email} onChange = {this.emailHandler}/>
-                </div>
-
-                <div className="form-group">
-                    <label>Phone</label>
-                    <input type="text" className="form-control" placeholder="Enter Phone" value = {this.state.Phone} onChange = {this.phoneHandler}/>
-                </div>
-
-                <div className="form-group">
-                    <label>Address</label>
-                    <input type="text" className="form-control" placeholder="Enter Address" value = {this.state.Address} onChange = {this.addressHandler}/>
-                </div>
-                <div className="form-group">
-                    <label>Gender</label> &nbsp;
-                        <input type="radio" name="gender" value={"Male"} checked = {this.state.Gender === "Male"} onChange = {this.genderHandler} /> Male &nbsp;
-                        <input type="radio" name="gender" value={"Female"} checked = {this.state.Gender === "Female"} onChange = {this.genderHandler}/> Female
-                </div>
-    
-                <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
-                <p className="forgot-password text-right">
-                    <h6>Already registered <a href="/login">Sign In ?</a></h6>
-                </p>
-            </Form>
+            </div>
         );
     }
 }

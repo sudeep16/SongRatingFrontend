@@ -1,18 +1,35 @@
 import React from 'react';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import './user.css';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 
-<div className="App">
-    <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        <div className="container">
-            <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                    <Link className="nav-link" to={"/login"}>Login</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to={"/register"}>Sign up</Link>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
+class uHeader extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (<Router>
+            <Navbar bg="light" variant="light">
+                <Navbar.Brand>Song Rating System</Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link href="/Homepage">Homepage</Nav.Link>
+                    <Nav.Link href="/Profile">Profile</Nav.Link>
+                    <Nav.Link href="/RatedMusic">Rated Music</Nav.Link>
+                </Nav>
+                <Form inline className = "search">
+                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                    <Button variant="outline-info">Search</Button>
+                </Form>
+                <Nav>
+                    <Nav.Link href="/Logout">Log Out</Nav.Link>
+                </Nav>
+            </Navbar>
+        </Router>
+        )
+    }
+}
+
+
+
+export default uHeader;

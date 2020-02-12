@@ -2,16 +2,33 @@
   text-align: center;
   padding-top: 200px;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.nav-item {
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.navbar navbar-expand-lg navbar-light fixed-top{
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+}
+
+.container{
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+}
+.navbar-nav ml-auto{
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+}
+
+.nav-link {
+  margin: 0px;
+  padding: 10px;
+  text-align: center;
 }
 
 .App-header {

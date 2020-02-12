@@ -5,18 +5,19 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Login from "./Components/user/loginComponent";
 import Register from "./Components/User/registerComponent";
+import Homepage from "./Components/User/Homepage";
+import Profile from "./Components/User/Profile"
 
 function App() {
   return (<Router>
-      <div className="auth-wrapper">
-        <div className="auth-inner">
           <Switch>
             <Route exact path='/' component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/Homepage" component={Homepage} />
+            <Route path="/Profile" component={Profile} />
+
           </Switch>
-        </div>
-      </div>
     </Router>
   );
 }
