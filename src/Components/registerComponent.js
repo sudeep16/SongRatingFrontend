@@ -54,7 +54,7 @@ export default class Register extends React.Component {
         this.setState({ Gender: e.target.value })
     }
 
-    submitHandler = (e) => {
+    registerHandler = (e) => {
         e.preventDefault();
 
         var data = {
@@ -97,7 +97,7 @@ export default class Register extends React.Component {
         }
         return (
 
-            <Form onSubmit = {this.submitHandler}>
+            <Form onSubmit = {this.registerHandler}>
                 <h3>Registration</h3>
 
                 <div className="form-group">
