@@ -1,5 +1,5 @@
 import React from 'react';
-import './user.css';
+import './admin.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 

@@ -3,10 +3,13 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Login from "./Components/user/loginComponent";
+import Login from "./Components/User/loginComponent";
 import Register from "./Components/User/registerComponent";
+import adminLogin from "./Components/Admin/loginComponent"
 import Homepage from "./Components/User/Homepage";
-import Profile from "./Components/User/Profile"
+import Profile from "./Components/User/Profile";
+import UpdateProfile from "./Components/User/UpdateProfile";
+import userList from "./Components/Admin/userList"
 
 function App() {
   return (<Router>
@@ -14,8 +17,11 @@ function App() {
             <Route exact path='/' component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/adminLogin" component={adminLogin} />
             <Route path="/Homepage" component={Homepage} />
             <Route path="/Profile" component={Profile} />
+            <Route path="/UpdateProfile" component={UpdateProfile} />
+            <Route path="/userList" component={userList}/>
 
           </Switch>
     </Router>
