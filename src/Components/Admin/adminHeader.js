@@ -13,9 +13,8 @@ class uHeader extends React.Component {
             <Navbar bg="light" variant="light" className = "Navbar">
                 <Navbar.Brand>Song Rating System</Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link href="/Homepage">Homepage</Nav.Link>
-                    <Nav.Link href="/Profile">Profile</Nav.Link>
-                    <Nav.Link href="/RatedMusic">Rated Music</Nav.Link>
+                    <Nav.Link href="/adminHomepage">Homepage</Nav.Link>
+                    <Nav.Link href="/userList">Users Registered</Nav.Link>
                 </Nav>
                 <Form inline className = "search">
                     <FormControl type="text" placeholder="Search" className="mr-sm-2" />

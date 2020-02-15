@@ -1,3 +1,9 @@
+Table, thead, th, td {
+border: 3px solid black;
+color: black;
+background-color: white;
+}
+
 .search{
     margin-right: 50px;
 }
@@ -11,12 +17,31 @@
     margin-bottom: 50px;
 }
 
+.table1{
+    border: 5px;
+    color: aliceblue;
+}
 
+.btn2{
+    background-color: black;
+}
+
+.btnPara{
+    margin-right: 250px;
+}
 
 .card-subtitle{
     padding: 25px;
 }
 
-.card-body{
+.card{
+    align-items: center;
     text-align: center;
+    width: 900px;
+    height: auto;
+    margin: 20px;
+}
+
+.btn1{
+    margin: 20px;
 }
