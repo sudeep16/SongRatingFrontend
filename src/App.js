@@ -9,7 +9,8 @@ import adminLogin from "./Components/Admin/loginComponent"
 import Homepage from "./Components/User/Homepage";
 import Profile from "./Components/User/Profile";
 import UpdateProfile from "./Components/User/UpdateProfile";
-import userList from "./Components/Admin/userList"
+import adminHomepage from "./Components/Admin/adminHomepage";
+import userList from "./Components/Admin/userList";
 
 function App() {
   return (<Router>
@@ -21,6 +22,7 @@ function App() {
             <Route path="/Homepage" component={Homepage} />
             <Route path="/Profile" component={Profile} />
             <Route path="/UpdateProfile" component={UpdateProfile} />
+            <Route path="/adminHomepage" component={adminHomepage} />
             <Route path="/userList" component={userList}/>
 
           </Switch>

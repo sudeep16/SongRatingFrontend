@@ -55,9 +55,9 @@ class userList extends Component {
             <React.Fragment>
                 <Route component={adminHeader} />
                 <div>
-                    <center><h1>Songs List</h1></center>
+                    <center><h1>Users List</h1></center>
 
-                    <Table>
+                    <Table className = "table1">
                         <thead>
                             <tr>
                                 <th>Username</th>

@@ -78,6 +78,7 @@ export default class Login extends React.Component {
                         <br />
                         <p className="Registration">
                             <h5>Not a User:  <a href="/register"><b>Register Here ?</b></a></h5>
+                            Restricted to ADMIN only:  <a href="/adminLogin"><b>Admin Login Here ?</b></a>
                         </p>
 
                     </Form>
