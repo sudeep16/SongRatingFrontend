@@ -1,35 +1,35 @@
 import React, { Component } from "react";
-import adminHeader from "./adminHeader";
-import './admin.css';
+import userHeader from "./userHeader";
+import './user.css';
 import Axios from "axios";
 import { Route } from "react-router-dom";
 import { Table, Button, Container } from "react-bootstrap";
 
-class userList extends Component {
+class RatedMusic extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            usersList: [],
+            uSongList: [],
             config: {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             },
-            allUsers: {}
+            allRatedSongs: {}
         }
     }
 
-    deleteHandler = (uID) => {
-        const displayUser = this.state.usersList.filter((users) => {
-            return users._id !== uID
+    deleteHandler = (uSongID) => {
+        const displayUserSongs = this.state.uSongList.filter((uSong) => {
+            return uSong._id !== uSongID
         })
         this.setState({
-            usersList: displayUser
+            uSongList: displayUserSongs
         })
 
         Axios.delete(
-            `http://localhost:2020/admin/userList/${uID}`, this.state.config)
+            `http://localhost:2020/uSong/${uSongID}`, this.state.config)
             .then((response) => {
                 console.log(response)
             })
@@ -38,10 +38,10 @@ class userList extends Component {
             })
     }
     componentDidMount() {
-        Axios.get("http://localhost:2020/admin/userList", this.state.config)
+        Axios.get("http://localhost:2020/uSong", this.state.config)
             .then((response) => {
                 this.setState({
-                    usersList: response.data
+                    uSongList: response.data
                 });
                 console.log(response.data);
             })
@@ -53,7 +53,7 @@ class userList extends Component {
     render() {
         return (
             <React.Fragment>
-                <Route component={adminHeader} />
+                <Route component={userHeader} />
                 <div>
                     <center><h1>Users List</h1>
 
@@ -62,25 +62,25 @@ class userList extends Component {
                         <Table className="table1">
                             <thead>
                                 <tr>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Address</th>
-                                    <th>Gender</th>
+                                    <th>Song Title</th>
+                                    <th>Duration</th>
+                                    <th>Artist</th>
+                                    <th>Genre</th>
+                                    <th>Rating</th>
                                     <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    this.state.usersList.map((users) => {
+                                    this.state.uSongList.map((uSong) => {
                                         return (
-                                            <tr key={users._id}>
-                                                <td>{users.Username}</td>
-                                                <td>{users.Email}</td>
-                                                <td>{users.Phone}</td>
-                                                <td>{users.Address}</td>
-                                                <td>{users.Gender}</td>
-                                                <td><Button onClick={() => this.deleteHandler(users._id)}>Delete</Button></td>
+                                            <tr key={uSong._id}>
+                                                <td>{uSong.SongTitle}</td>
+                                                <td>{uSong.Duration}</td>
+                                                <td>{uSong.Artist}</td>
+                                                <td>{uSong.Genre}</td>
+                                                <td>{uSong.Rating}</td>
+                                                <td><Button onClick={() => this.deleteHandler(uSong._id)}>Delete</Button></td>
                                             </tr>
                                         )
                                     })
@@ -96,4 +96,4 @@ class userList extends Component {
     };
 }
 
-export default userList;
+export default RatedMusic;

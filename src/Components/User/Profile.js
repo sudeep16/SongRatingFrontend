@@ -3,77 +3,135 @@ import userHeader from "./userHeader";
 import './user.css';
 import Axios from "axios";
 import { Route } from "react-router-dom";
+import { Table, Button, Modal, Form, Container } from "react-bootstrap";
 
 class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-                songs: [],
-                config: {
-                    headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
-                },
-                selectedSong: {}
-            }
-    
+            userDetail: {},
+            Username: "",
+            Email: "",
+            Address: "",
+            Gender: "",
+            Phone: "",
+            config: {
+                headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+            },
+            showUpdateDetail: false,
+        }
+
     }
 
     componentDidMount() {
-        Axios.get("http://localhost:2020/song")
-            .then(res => res.json())
-            .then((data) => {
-                this.setState({ songs: data })
+        Axios.get("http://localhost:2020/users/profile", this.state.config)
+            .then((response) => {
+                this.setState({
+                    userDetail: response.data
+                });
+                console.log(response.data);
+            }).catch((err) => {
+                console.log(err);
             })
-            .catch(console.log)
     }
 
-    updateHandler = (e) => { // use class property plugin in babel rc 
-        e.preventDefault();
-        var uData = {
-            Username: this.state.Username,
-            Password: this.state.Password,
-            isOnline: true
-        }
+    handleClose = () => {
+        this.setState({
+            showUpdateDetail: false
+        })
+    }
 
-        Axios.post(
-            //url
-            //data -> js oject this.state,
-            //headers -> js object
+    handleOpen = (profileUpdate) => {
+        this.setState({
+            showUpdateDetail: true
+        })
+    }
 
-            'http://localhost:2020/users/Profile', uData
+    updateHandler = () => { // use class property plugin in babel rc 
+        console.log(this.state.userDetail);
+
+        Axios.put(
+            `http://localhost:2020/users/updProfile`,
+            this.state.userDetail,
+            this.state.config
         )
             .then((response) => {
                 console.log(response);
-                localStorage.setItem("token", response.data.token);
-                location.href = "/UpdateProfile"
+                location.href = "/Profile"
             })
             .catch((err) => {
                 console.log(err);
             })
 
     }
+
+    emailUpdHandler = (e) => {
+        this.setState({ userDetail: { ...this.state.userDetail, ["Email"]: e.target.value } });
+    }
+
+    addressUpdHandler = (e) => {
+        this.setState({ userDetail: { ...this.state.userDetail, ["Address"]: e.target.value } });
+    }
+
+    genderUpdHandler = (e) => {
+        this.setState({ userDetail: { ...this.state.userDetail, ["Gender"]: e.target.value } });
+    }
+
+    phoneUpdHandler = (e) => {
+        this.setState({ userDetail: { ...this.state.userDetail, ["Phone"]: e.target.value } });
+    }
+
+
+
     render() {
         return (
             <React.Fragment>
                 <Route component={userHeader} />
                 <div>
                     <center><h1>Profile Information</h1></center>
-                    {/* {songs.map((song) => ( */}
-                    <div className="auth-wrapper">
-                        <div className="auth-inner">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h2 class="card-subtitle">Username</h2>
-                                    <h4 class="card-subtitle"> Email : ;) </h4>
-                                    <h4 class="card-subtitle"> Address : ;) </h4>
-                                    <h4 class="card-subtitle"> Gender : ;) </h4>
-                                    <h4 class="card-subtitle"> Phone : ;) </h4>
-                                    <button type="submit" className="btn btn-primary btn-block" onClick={this.updateHandler}>Edit</button>
-                                </div>
+                    <center><Container className="data2">
+
+                        {/* {songs.map((song) => ( */}
+                        <div className="card" key={this.state.userDetail._id}>
+                            <div className="card-body">
+                                <h2 className="card-subtitle">{this.state.userDetail.Username}</h2>
+                                <h4 className="card-subtitle"> Email : {this.state.userDetail.Email} </h4>
+                                <h4 className="card-subtitle"> Address : {this.state.userDetail.Address} </h4>
+                                <h4 className="card-subtitle"> Gender : {this.state.userDetail.Gender} </h4>
+                                <h4 className="card-subtitle"> Phone : {this.state.userDetail.Phone} </h4>
+                                <Button onClick={() => this.handleOpen(this.state.userDetail)}>Edit</Button>
                             </div>
                         </div>
-                    </div>
-                    ))}
+
+                    </Container>
+                    </center>
                 </div>
+
+                <Modal show={this.state.showUpdateDetail} onHide={this.handleClose} animation={true}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Update User Profile</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group controlId="formBasicEditEmail">
+                                <Form.Control type="email" value={this.state.userDetail.Email} onChange={this.emailUpdHandler} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEditAddress">
+                                <Form.Control type="text" value={this.state.userDetail.Address} onChange={this.addressUpdHandler} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEditGender">
+                                <Form.Control type="text" value={this.state.userDetail.Gender} onChange={this.genderUpdHandler} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEditPhone">
+                                <Form.Control type="text" value={this.state.userDetail.Phone} onChange={this.phoneUpdHandler} />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={this.handleClose}>Close</Button>
+                        <Button variant="primary" onClick={() => this.updateHandler(this.state.userDetail._id)}>Update</Button>
+                    </Modal.Footer>
+                </Modal>
             </React.Fragment>
         )
     };
