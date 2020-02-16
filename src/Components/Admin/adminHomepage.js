@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import userHeader from "./adminHeader";
+import adminHeader from "./adminHeader";
 import './admin.css';
 import Axios from "axios";
 import { Route } from "react-router-dom";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Container } from "react-bootstrap";
 
 class adminHomepage extends Component {
     constructor(props) {
@@ -16,6 +16,7 @@ class adminHomepage extends Component {
             Artist: "",
             Genre: "",
             Rating: "",
+            image:null,
             config: {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -46,6 +47,11 @@ class adminHomepage extends Component {
     songRatingUpdHandler = (e) => {
         this.setState({ selectedSong: { ...this.state.selectedSong, ["Rating"]: e.target.value } });
     }
+
+    
+    songImageUpdHandler = (e) => {
+        this.setState({ selectedSong: { ...this.state.selectedSong, ["image"]: e.target.value } });
+    }
     sTitleHandler = (e) => {
         this.setState({ SongTitle: e.target.value })
     }
@@ -63,9 +69,14 @@ class adminHomepage extends Component {
     }
 
     sRatingHandler = (e) => {
-        this.setState({ Rating: e.target.value})
+        this.setState({ Rating: e.target.value })
     }
 
+    handleFileSelect=(e)=>{
+        this.setState({
+            file: e.target.files[0]
+        })
+    }
     deleteHandler = (sID) => {
         const displaySong = this.state.songsList.filter((song) => {
             return song._id !== sID
@@ -88,8 +99,8 @@ class adminHomepage extends Component {
         console.log(this.state.songsList);
 
         Axios.put(
-            `http://localhost:2020/song/${editHandle}`, 
-            this.state.selectedSong, 
+            `http://localhost:2020/song/${editHandle}`,
+            this.state.selectedSong,
             this.state.config
         )
             .then((response) => {
@@ -103,25 +114,41 @@ class adminHomepage extends Component {
     }
 
     addHandler = (e) => {
-        e.preventDefault();
+        let uploaddata= new FormData();
+        uploaddata.append('imageFile', this.state.file);
+        Axios.post(
+            "http://localhost:2020/upload",
+            uploaddata,
+            this.state.config
+        ).then((response) => {
+            e.preventDefault();
+            console.log(response.data.filename)
         var addSongs = {
             SongTitle: this.state.SongTitle,
             Duration: this.state.Duration,
             Artist: this.state.Artist,
             Genre: this.state.Genre,
             Rating: this.state.Rating,
+            Image:response.data.filename
         }
-        console.log(addSongs);
+    
         Axios.post(
             "http://localhost:2020/Song",
             addSongs,
             this.state.config
         ).then((response) => {
             console.log(response.data);
-            location.href="/adminHomepage";
+        }).catch((err) => {
+            location.href= ("/adminHomepage"),
+            console.log(err)
+        })
+
+
+
         }).catch((err) => {
             console.log(err)
         })
+       
     }
 
     handleClose = () => {
@@ -160,13 +187,15 @@ class adminHomepage extends Component {
     render() {
         return (
             <React.Fragment>
-                <Route component={userHeader} />
-                <div>
-                    <center><h1>Songs List</h1></center>
-                    <p className = "btnPara" align = "right"><Button className = "btn2" onClick={this.addSongHandler}>
-                                    Add Songs
-                    </Button></p>
-                    <center>
+                <Route component={adminHeader} />
+
+                <center>
+
+                    <h1>Songs List</h1>
+
+                    <Container className='data1'>
+                        <p className="btnPara"><Button className="btn2" onClick={this.addSongHandler}>Add Songs</Button></p>
+
                         {
                             this.state.songsList.map((song) => {
                                 return (
@@ -183,8 +212,10 @@ class adminHomepage extends Component {
                                 )
                             })
                         }
-                    </center>
-                </div>
+                    </Container>
+
+                </center>
+
 
                 <Modal show={this.state.show} onHide={this.handleClose} animation={true}>
                     <Modal.Header closeButton>
@@ -207,6 +238,9 @@ class adminHomepage extends Component {
                             <Form.Group controlId="formBasicEditSongRating">
                                 <Form.Control type="text" value={this.state.selectedSong.Rating} onChange={this.songRatingUpdHandler} />
                             </Form.Group>
+                            <Form.Group controlId="formBasicEditSongImage">
+                                <Form.Control type="file" value={this.state.selectedSong.image} onChange={this.songImageUpdHandler} />
+                            </Form.Group>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
@@ -220,37 +254,43 @@ class adminHomepage extends Component {
                 </Modal>
 
                 <Modal show={this.state.showAddSong} onHide={this.handleClose} animation={true}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Add Songs</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form>
-                                <Form.Group controlId="formBasicSongTitle">
-                                    <Form.Control placeholder="Song Title" type="text" value={this.state.SongTitle} onChange={this.sTitleHandler} />
-                                </Form.Group>
-                                <Form.Group controlId="formBasicDuration">
-                                    <Form.Control placeholder="Duration" type="text" value={this.state.Duration} onChange={this.sDurationHandler} />
-                                </Form.Group>
-                                <Form.Group controlId="formBasicArtist">
-                                    <Form.Control placeholder="Artist" type="text" value={this.state.Artist} onChange={this.sArtistHandler} />
-                                </Form.Group>
-                                <Form.Group controlId="formBasicGenre">
-                                    <Form.Control placeholder="Genre" value={this.state.Genre} onChange={this.sGenreHandler} />
-                                </Form.Group>
-                                <Form.Group controlId="formBasicRating">
-                                    <Form.Control placeholder="Rating" value={this.state.Rating} onChange={this.sRatingHandler} />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="danger" onClick={this.handleClose}>
-                                Close
-</Button>
-                            <Button variant="primary" onClick={this.addHandler}>
-                                Add
-</Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Add Songs</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group controlId="formBasicSongTitle">
+                                <Form.Control placeholder="Song Title" type="text" value={this.state.SongTitle} onChange={this.sTitleHandler} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicDuration">
+                                <Form.Control placeholder="Duration" type="text" value={this.state.Duration} onChange={this.sDurationHandler} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicArtist">
+                                <Form.Control placeholder="Artist" type="text" value={this.state.Artist} onChange={this.sArtistHandler} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicGenre">
+                                <Form.Control placeholder="Genre" value={this.state.Genre} onChange={this.sGenreHandler} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicRating">
+                                <Form.Control placeholder="Rating" value={this.state.Rating} onChange={this.sRatingHandler} />
+                            </Form.Group>
+                            {/* <Form.Group controlId="formBasicSongImage">
+                                <Form.Control type="file" value={this.state.image} onChange={this.sImageHandler} />
+                            </Form.Group> */}
+                             <Form.Group>
+                {/* <Label for='Profile'>Choose profile picture</Label> */}
+                img:
+                    <input type="file" name="image" onChange={this.handleFileSelect}/>
+                </Form.Group>
+                            {/* <input type="file" name="file" onChange={this.sImageHandler}/> */}
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={this.handleClose}>Close</Button>
+                        <Button variant="primary" onClick={this.addHandler}>Add</Button>
+                    </Modal.Footer>
+                </Modal>
+
             </React.Fragment >
         )
     }

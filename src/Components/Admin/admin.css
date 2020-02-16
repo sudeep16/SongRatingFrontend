@@ -12,6 +12,9 @@ background-color: white;
     padding-right: 250px;
 }
 
+.data1{
+    width: 100%;
+}
 
 .Navbar{
     margin-bottom: 50px;
@@ -26,18 +29,10 @@ background-color: white;
     background-color: black;
 }
 
-.btnPara{
-    margin-right: 250px;
-}
-
-.card-subtitle{
-    padding: 25px;
-}
 
 .card{
-    align-items: center;
     text-align: center;
-    width: 900px;
+    width: auto;
     height: auto;
     margin: 20px;
 }
